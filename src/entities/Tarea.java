@@ -55,5 +55,7 @@ public class Tarea {
         this.prioridad = prioridad;
     }
 
-
+    public String toString() {
+        return "La tarea " + this.id + " con prioridad: " + this.prioridad + " y si es crítica: " + this.critica;
+    }
 }
