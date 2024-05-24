@@ -1,9 +1,10 @@
+import entities.Tarea;
 
-//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
-// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 public class Main {
     public static void main(String[] args) {
 
             Servicios servicios = new Servicios("src/datasets/Procesadores.csv", "src/datasets/Tareas.csv");
+            Tarea t = new Tarea("A", "1", 1, true, 5);
+            System.out.print(t);
         }
     }

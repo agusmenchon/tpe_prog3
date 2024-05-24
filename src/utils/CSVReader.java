@@ -1,6 +1,6 @@
 package utils;
 
-
+import entities.Tarea;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -20,7 +20,6 @@ public class CSVReader {
         // lines.get(0) tiene la primer linea del archivo
         // lines.get(1) tiene la segunda linea del archivo... y así
         ArrayList<String[]> lines = this.readContent(taskPath);
-        System.out.print("entre");
 
         for (String[] line: lines) {
             // Cada linea es un arreglo de Strings, donde cada posicion guarda un elemento
@@ -30,6 +29,8 @@ public class CSVReader {
             Boolean critica = Boolean.parseBoolean(line[3].trim());
             Integer prioridad = Integer.parseInt(line[4].trim());
             // Aca instanciar lo que necesiten en base a los datos leidos
+
+            Tarea t = new Tarea(id, nombre, tiempo, critica, prioridad);
         }
 
     }
@@ -48,6 +49,8 @@ public class CSVReader {
             Boolean refrigerado = Boolean.parseBoolean(line[2].trim());
             Integer anio = Integer.parseInt(line[3].trim());
             // Aca instanciar lo que necesiten en base a los datos leidos
+
+
         }
 
     }

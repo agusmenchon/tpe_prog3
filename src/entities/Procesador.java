@@ -1,3 +1,5 @@
+package entities;
+
 public class Procesador {
     private String id;
     private int codigo;
