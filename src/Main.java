@@ -22,8 +22,8 @@ public class Main {
         System.out.println("ARRAY ORDENADO SEGÚN PRIORIDAD DE TAREAS");
         servicios.printArray();
 
-        System.out.println("SERVICIO 3 de 21 a 92");
-        List<Tarea> listTareasPrioridad = servicios.servicio3(21, 92);
+        System.out.println("SERVICIO 3 de 21 a 69");
+        List<Tarea> listTareasPrioridad = servicios.servicio3(21, 69);
         for (Tarea t: listTareasPrioridad) {
             System.out.println(t);
         }

@@ -79,12 +79,15 @@ public class Servicios {
 
     //Expresar la complejidad temporal del servicio 3.
     public List<Tarea> servicio3(int prioridadInferior, int prioridadSuperior) {
-        //System.out.println("Ingresa al servicio 3");
         List<Tarea> res = new ArrayList<>();
 
-        System.out.println("arranca busqueda binaria:");
-        int inicio = busquedaBinaria(arrayTareas, prioridadInferior, 0, arrayTareas.length, 0);
-        System.out.println("valor de prioridad en la pos de inicio: " + arrayTareas[inicio].getPrioridad());
+        int inicio = busquedaBinaria(arrayTareas, prioridadInferior, 0, arrayTareas.length - 1);
+
+        if (inicio >= arrayTareas.length) {
+            return res;
+        }
+
+        //System.out.println("valor de prioridad en la pos de inicio: " + arrayTareas[inicio].getPrioridad());
 
         for (int i = inicio; i < arrayTareas.length; i++) {
             if (arrayTareas[i].getPrioridad() <= prioridadSuperior) {
@@ -94,26 +97,20 @@ public class Servicios {
         return res;
     }
 
-    public int busquedaBinaria(Tarea[] array, int x, int inicio, int fin, int indicePrevio) {
+    public int busquedaBinaria(Tarea[] array, int x, int inicio, int fin) {
         int medio;
 
-        if (inicio > fin) {
-            //System.out.println("Ingresa al if de inicio > fin");
-            //System.out.println(indicePrevio);
-            return indicePrevio;
-        } //sucederá si no se encuentra el elemento
-
-        else {
-            medio = (inicio + fin) / 2; //al ser medio un int, se realiza un truncado (pierde la parte decimal)
-            System.out.println("Medio es ahora: " + medio);
-            if (x > array[medio].getPrioridad())
-                return busquedaBinaria(array, x, medio+1, fin, medio);
-            else
-            if (x < array[medio].getPrioridad())
-                return busquedaBinaria(array, x, inicio, medio-1, medio);
-            else
-                return medio;
+        while (inicio <= fin) {
+            medio = (inicio + fin) / 2;
+            //System.out.println("Medio es ahora: " + medio);
+            if (array[medio].getPrioridad() < x) {
+                inicio = medio + 1;
+            } else {
+                fin = medio - 1;
+            }
         }
+
+        return inicio;
     }
 
 }
