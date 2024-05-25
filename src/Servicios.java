@@ -82,10 +82,7 @@ public class Servicios {
         //System.out.println("Ingresa al servicio 3");
         List<Tarea> res = new ArrayList<>();
 
-        int inicio = busquedaBinaria(arrayTareas, prioridadInferior, 0, arrayTareas.length-1, 0);
-
-        //System.out.println("Salgo de la búsqueda binaria con: " +inicio);
-        //System.out.println(arrayTareas.length-1);
+        int inicio = busquedaBinaria(arrayTareas, prioridadInferior, 0, arrayTareas.length, 0);
 
         for (int i = inicio; i < arrayTareas.length; i++) {
             if (arrayTareas[i].getPrioridad() <= prioridadSuperior) {

@@ -23,7 +23,7 @@ public class Main {
         servicios.printArray();
 
         System.out.println("SERVICIO 3 de 50 a 75");
-        List<Tarea> listTareasPrioridad = servicios.servicio3(50, 75);
+        List<Tarea> listTareasPrioridad = servicios.servicio3(21, 92);
         for (Tarea t: listTareasPrioridad) {
             System.out.println(t);
         }
