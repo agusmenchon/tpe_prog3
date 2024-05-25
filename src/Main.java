@@ -14,15 +14,19 @@ public class Main {
         System.out.println(servicios.servicio1("T3"));
 
         System.out.println("SERVICIO 2 con tareas críticas");
-        List<Tarea> list = servicios.servicio2(true);
-        for (Tarea t: list) {
+        List<Tarea> listTareasCriticas = servicios.servicio2(true);
+        for (Tarea t: listTareasCriticas) {
             System.out.println(t);
         }
 
         System.out.println("ARRAY ORDENADO SEGÚN PRIORIDAD DE TAREAS");
         servicios.printArray();
 
-        System.out.println("SERVICIO 3");
+        System.out.println("SERVICIO 3 de 50 a 75");
+        List<Tarea> listTareasPrioridad = servicios.servicio3(50, 75);
+        for (Tarea t: listTareasPrioridad) {
+            System.out.println(t);
+        }
 
         }
     }
