@@ -82,7 +82,9 @@ public class Servicios {
         //System.out.println("Ingresa al servicio 3");
         List<Tarea> res = new ArrayList<>();
 
+        System.out.println("arranca busqueda binaria:");
         int inicio = busquedaBinaria(arrayTareas, prioridadInferior, 0, arrayTareas.length, 0);
+        System.out.println("valor de prioridad en la pos de inicio: " + arrayTareas[inicio].getPrioridad());
 
         for (int i = inicio; i < arrayTareas.length; i++) {
             if (arrayTareas[i].getPrioridad() <= prioridadSuperior) {
@@ -93,7 +95,6 @@ public class Servicios {
     }
 
     public int busquedaBinaria(Tarea[] array, int x, int inicio, int fin, int indicePrevio) {
-        //System.out.println("Ingresa a la búsqueda binaria");
         int medio;
 
         if (inicio > fin) {
@@ -104,7 +105,7 @@ public class Servicios {
 
         else {
             medio = (inicio + fin) / 2; //al ser medio un int, se realiza un truncado (pierde la parte decimal)
-            //System.out.println("Medio: " +medio);
+            System.out.println("Medio es ahora: " + medio);
             if (x > array[medio].getPrioridad())
                 return busquedaBinaria(array, x, medio+1, fin, medio);
             else
