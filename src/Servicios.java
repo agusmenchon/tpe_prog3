@@ -4,6 +4,7 @@ import org.w3c.dom.ranges.RangeException;
 import utils.CSVReader;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 
@@ -22,7 +23,6 @@ public class Servicios {
     public Servicios(String pathProcesadores, String pathTareas)
     {
         this.tareas = new HashMap<>();
-
         //REVISAR
         this.procesadores = new HashMap<>();
 
@@ -31,6 +31,14 @@ public class Servicios {
         reader.readTasks();
         arrayTareas = new Tarea[tareas.size()];
         insertarOrdenadoArray();
+    }
+
+    public Collection<Tarea> getTareas() {
+        return tareas.values();
+    }
+
+    public Collection<Procesador> getProcesadores() {
+        return procesadores.values();
     }
 
     private void insertarOrdenadoArray() {

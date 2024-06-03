@@ -36,19 +36,19 @@ public class Main {
         }
 
         // TODO
-        Backtracking();
+        Backtracking(servicios);
 
         //TODO
         // Greedy();
 
     }
 
-    public static void Backtracking(){
+    public static void Backtracking(Servicios servicios){
         System.out.println("--- Backtracking ---");
 
-        Timer timer = new Timer();
+        //Timer timer = new Timer();
 
-        String pathTareas = "TPE2024/src/datasets/Tareas.csv";
+        /*String pathTareas = "TPE2024/src/datasets/Tareas.csv";
         String pathProcesadores = "TPE2024/src/datasets/Procesadores.csv";
 
         HashMap<String, Tarea> tareas = new HashMap<>();
@@ -66,11 +66,32 @@ public class Main {
         }
         for(Tarea task : tareas.values()){
             t.add(task);
+        }*/
+
+        /*Procesador[] procesadores = new Procesador[servicios.getProcesadores().size()];
+
+        int iP = 0;
+        for (Procesador p: servicios.getProcesadores()) {
+            procesadores[iP] = p;
+            iP++;
+        }*/
+
+        ArrayList<Procesador> procesadores = new ArrayList<>();
+        procesadores.addAll(servicios.getProcesadores());
+
+        Tarea[] tareas = new Tarea[servicios.getTareas().size()];
+
+        int iT = 0;
+        for (Tarea t: servicios.getTareas()) {
+            tareas[iT] = t;
+            iT++;
         }
 
         //todo pedir por consola parametros.
-        Backtracking back = new Backtracking(p, t, 500, 25);
-        HashMap<Procesador, ArrayList<Tarea>> asignacion = back.backtracking();
+        Backtracking back = new Backtracking(procesadores, tareas);
+
+        HashMap<String, Procesador> asignacion = back.backtracking();
+
         for(Procesador proc : asignacion.keySet()){
             System.out.print("Procesador: " + proc.getCodigo());
             for (Iterator<Tarea> it = asignacion.get(proc).iterator(); it.hasNext(); ) {

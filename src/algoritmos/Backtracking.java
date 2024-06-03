@@ -1,19 +1,22 @@
 package algoritmos;
 
 import entities.Procesador;
+import entities.Solucion;
 import entities.Tarea;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Set;
 
 public class Backtracking {
     private ArrayList<Procesador> procesadores;
-    private ArrayList<Tarea> tareas;
-    private int tiempoMax;
+    private Tarea[] tareas;
+    //private int tiempoMax;
     private int iteraciones;
-    private int tiempoProcNoRefrigerados;
-    private HashMap<Procesador, ArrayList<Tarea>> asignacionMinima;
+    //private int tiempoProcNoRefrigerados;
+    //private HashMap<Procesador, ArrayList<Tarea>> asignacionMinima;
+    private Solucion asignacionMinima;
     private int tiempoFinalEjecucion;
 
 //    P4;COD_P4;false;2015
@@ -21,30 +24,58 @@ public class Backtracking {
 
 //    T5;Tarea5;5;true;22
 //    id, nombre, tiempo , critica, prioridad
-    public Backtracking(ArrayList<Procesador> procesadores, ArrayList<Tarea> tareas, int tiempoMax, int tiempoProcNoRefrigerados) {
+    public Backtracking(ArrayList<Procesador> procesadores, Tarea[] tareas) {
         this.procesadores = procesadores;
         this.tareas = tareas;
-        this.tiempoMax = tiempoMax;
+        //this.tiempoMax = tiempoMax;
         this.iteraciones = 0;
-        this.tiempoProcNoRefrigerados = tiempoProcNoRefrigerados;
-        this.asignacionMinima = new HashMap<>();
+        //this.tiempoProcNoRefrigerados = tiempoProcNoRefrigerados;
+        this.asignacionMinima = new Solucion(null);
         this.tiempoFinalEjecucion = Integer.MAX_VALUE;
     }
 
-    public HashMap<Procesador, ArrayList<Tarea>> backtracking() {
-        HashMap<Procesador, ArrayList<Tarea>> asignacionActual = new HashMap<>();
+    public Solucion backtracking(int tiempoMaximoNoRefrigerados) {
+        this.asignacionMinima.clear();
+        this.tiempoFinalEjecucion = Integer.MAX_VALUE;
 
-        for(Procesador p : procesadores){
-            asignacionActual.put(p, new ArrayList<>());
-        }
+        Solucion asignacionActual = new Solucion(this.procesadores);
 
-        _backtracking(procesadores.getFirst(), asignacionActual, 0);
+        /*Set<String> ids = procesadores.keySet();
+
+        for (String id: ids) {
+            Procesador temp = procesadores.get(id);
+            asignacionActual.put(temp.getId(), temp);
+        }*/
+
+        //for(Procesador p : procesadores){
+        //    asignacionActual.put(p, new ArrayList<>());
+        //}
+
+        _backtracking(0, asignacionActual, tiempoMaximoNoRefrigerados);
 
         return asignacionMinima;
     }
 
-    private void _backtracking(Procesador proc, HashMap<Procesador, ArrayList<Tarea>> asignacionActual, int tiempoActual) {
-        iteraciones++;
+    private void _backtracking(int tareaIndex, Solucion asignacionActual, int tiempoMaximoNoRefrigerados) {
+        //aumento this.iteraciones para contabilizar la cantidad de recursiones.
+        this.iteraciones++;
+
+        //si ya distribuimos todas las tareas:
+        if (tareaIndex == this.tareas.length) {
+            if (asignacionActual.getTiempoEjecucion() < this.asignacionMinima.getTiempoEjecucion()) {
+                this.asignacionMinima = asignacionActual;
+            }
+        } else {
+            for (Procesador p: asignacionActual.getProcesadores()) {
+                p.addTarea(this.tareas[tareaIndex], tiempoMaximoNoRefrigerados);
+                //recursión.
+                p.deleteTarea(this.tareas[tareaIndex]);
+            }
+        }
+
+
+
+        /*iteraciones++;
         //es solucion
         if((tiempoActual < tiempoMax && tiempoActual<tiempoFinalEjecucion) && tareas.isEmpty()){
             //todo otro condicional mas fuerte
@@ -94,7 +125,7 @@ public class Backtracking {
 //            } else {
             }
 
-        }
+        }*/
     }
 
 
