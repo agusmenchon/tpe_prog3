@@ -1,6 +1,6 @@
 package entities;
 
-public class Tarea {
+public class  Tarea {
     private String id;
     private String nombre;
     private int tiempo_ejecucion;

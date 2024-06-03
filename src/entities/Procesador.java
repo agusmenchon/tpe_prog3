@@ -1,16 +1,39 @@
 package entities;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Procesador {
     private String id;
-    private int codigo;
+    private String codigo;
     private boolean refrigeracion;
     private int año_funcionamiento;
+//    private List<Tarea> tareas;
+    private int tiempoEjecucion;
 
-    public Procesador(String id, int codigo, boolean refrigeracion, int año_funcionamiento) {
+    public Procesador(String id, String codigo, boolean refrigeracion, int año_funcionamiento) {
         this.id = id;
         this.codigo = codigo;
         this.refrigeracion = refrigeracion;
         this.año_funcionamiento = año_funcionamiento;
+//        this.tareas = new ArrayList<>();
+        this.tiempoEjecucion = 0;
+    }
+
+//    public List<Tarea> getTareas() {
+//        return tareas;
+//    }
+//
+//    public void addTareas(Tarea tarea) {
+//        this.tareas.add(tarea);
+//    }
+
+    public int getTiempoEjecucion() {
+        return tiempoEjecucion;
+    }
+
+    public void addTiempoEjecucion(int tiempoEjecucion) {
+        this.tiempoEjecucion += tiempoEjecucion;
     }
 
     public String getId() {
@@ -21,11 +44,11 @@ public class Procesador {
         this.id = id;
     }
 
-    public int getCodigo() {
+    public String getCodigo() {
         return codigo;
     }
 
-    public void setCodigo(int codigo) {
+    public void setCodigo(String codigo) {
         this.codigo = codigo;
     }
 

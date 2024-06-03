@@ -1,3 +1,4 @@
+import entities.Procesador;
 import entities.Tarea;
 import org.w3c.dom.ranges.RangeException;
 import utils.CSVReader;
@@ -14,15 +15,20 @@ import java.util.List;
 public class Servicios {
 
     private HashMap<String, Tarea> tareas;
+    private HashMap<String, Procesador> procesadores;
     private Tarea arrayTareas[];
 
     //Expresar la complejidad temporal del constructor.
     public Servicios(String pathProcesadores, String pathTareas)
     {
-        tareas = new HashMap<>();
-        CSVReader reader = new CSVReader();
-        reader.readProcessors(pathProcesadores);
-        reader.readTasks(pathTareas, tareas);
+        this.tareas = new HashMap<>();
+
+        //REVISAR
+        this.procesadores = new HashMap<>();
+
+        CSVReader reader = new CSVReader(tareas, procesadores, pathTareas, pathProcesadores);
+        reader.readProcessors();
+        reader.readTasks();
         arrayTareas = new Tarea[tareas.size()];
         insertarOrdenadoArray();
     }
@@ -79,7 +85,7 @@ public class Servicios {
 
     //Expresar la complejidad temporal del servicio 3.
     public List<Tarea> servicio3(int prioridadInferior, int prioridadSuperior) {
-        //System.out.println("Ingresa al servicio 3");
+        System.out.println(arrayTareas.length);
         List<Tarea> res = new ArrayList<>();
 
         int inicio = busquedaBinaria(arrayTareas, prioridadInferior, 0, arrayTareas.length, 0);
@@ -114,5 +120,4 @@ public class Servicios {
                 return medio;
         }
     }
-
 }
