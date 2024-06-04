@@ -13,7 +13,7 @@ import java.util.List;
 public class Main {
     public static void main(String[] args) {
 
-        Servicios servicios = new Servicios("TPE2024/src/datasets/Procesadores.csv", "TPE2024/src/datasets/Tareas.csv");
+        Servicios servicios = new Servicios("src/datasets/Procesadores.csv", "src/datasets/Tareas.csv");
 
         System.out.println("HASHMAP DE TAREAS");
         servicios.printHashMap();
@@ -45,37 +45,7 @@ public class Main {
     }
 
     public static void Backtracking(Servicios servicios){
-        System.out.println("--- Backtracking ---");
-
-        //Timer timer = new Timer();
-
-        /*String pathTareas = "TPE2024/src/datasets/Tareas.csv";
-        String pathProcesadores = "TPE2024/src/datasets/Procesadores.csv";
-
-        HashMap<String, Tarea> tareas = new HashMap<>();
-        HashMap<String, Procesador> procesadores = new HashMap<>();
-
-        CSVReader reader = new CSVReader(tareas, procesadores, pathTareas, pathProcesadores);
-        reader.readProcessors();
-        reader.readTasks();
-
-        ArrayList<Procesador> p = new ArrayList<>();
-        ArrayList<Tarea> t = new ArrayList<>();
-
-        for(Procesador proc : procesadores.values()){
-            p.add(proc);
-        }
-        for(Tarea task : tareas.values()){
-            t.add(task);
-        }*/
-
-        /*Procesador[] procesadores = new Procesador[servicios.getProcesadores().size()];
-
-        int iP = 0;
-        for (Procesador p: servicios.getProcesadores()) {
-            procesadores[iP] = p;
-            iP++;
-        }*/
+        System.out.println("--- BACKTRACKING ---");
 
         ArrayList<Procesador> procesadores = new ArrayList<>();
         procesadores.addAll(servicios.getProcesadores());
@@ -92,21 +62,18 @@ public class Main {
         Backtracking back = new Backtracking(procesadores, tareas);
 
         Solucion s = back.backtracking(500);
-        System.out.println(s.toString());
-//        System.out.println("solucion minima: " + s.getTiempoEjecucion());
-        System.out.println("iteraciones: " + back.getIteraciones());
 
-//        for(Procesador proc : asignacion.keySet()){
-//            System.out.print("Procesador: " + proc.getCodigo());
-//            for (Iterator<Tarea> it = asignacion.get(proc).iterator(); it.hasNext(); ) {
-//                Tarea task = it.next();
-//                System.out.print("->"+task);
-//            }
-//            System.out.println();
-//        }
-//        timer.start();
-//        timer.stop();
+        System.out.println("La solución con tiempo de ejecución " + s.getTiempoEjecucion() + " es:");
 
+        for (Procesador p: s.getProcesadores()) {
+            System.out.println(p);
+            for (Tarea t: p.getTareas()) {
+                System.out.println(t);
+            }
+        }
+
+        //System.out.println(s.toString());
+        System.out.println("Iteraciones totales: " + back.getIteraciones());
     }
 
     public static void Greedy(){

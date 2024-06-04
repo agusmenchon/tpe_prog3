@@ -10,7 +10,7 @@ public class Procesador {
     private int año_funcionamiento;
     private List<Tarea> tareas;
     private int tiempo_ejecucion;
-    private int tareas_criticas;
+    private int cant_tareas_criticas;
     private final int TAREAS_CRIT_MAX = 2;
 
     public Procesador(String id, String codigo, boolean refrigeracion, int año_funcionamiento) {
@@ -20,51 +20,74 @@ public class Procesador {
         this.año_funcionamiento = año_funcionamiento;
         this.tareas = new ArrayList<>();
         this.tiempo_ejecucion = 0;
-        this.tareas_criticas = 0;
+        this.cant_tareas_criticas = 0;
+    }
+
+    public Procesador(String id, String codigo, boolean refrigeracion, int año_funcionamiento, int tiempo_ejecucion, int tareas_criticas) {
+        this.id = id;
+        this.codigo = codigo;
+        this.refrigeracion = refrigeracion;
+        this.año_funcionamiento = año_funcionamiento;
+        this.tareas = new ArrayList<>();
+        this.tiempo_ejecucion = tiempo_ejecucion;
+        this.cant_tareas_criticas = tareas_criticas;
     }
 
     public List<Tarea> getTareas() {
-        return new ArrayList<>(this.tareas);
+        return this.tareas;
     }
 
-    public boolean canAdd(Tarea tarea, int tiempoMaximoNoRefrigerados) {
-        int tiempoAux = this.tiempo_ejecucion + tarea.getTiempo_ejecucion();
+    public boolean addTarea(Tarea tarea, int tiempoMaximoNoRefrigerados) {
+        int tiempoAux = this.tiempo_ejecucion + tarea.getTiempoEjecucion();
 
-        if (this.tareas_criticas < TAREAS_CRIT_MAX) {
-            if (!this.isRefrigeracion()) {
-                if(tiempoAux < tiempoMaximoNoRefrigerados){
-                    this.addTarea(tarea);
-                    return true;
+        if (tarea.isCritica()) {
+            if (this.cant_tareas_criticas < TAREAS_CRIT_MAX) {
+                if (!this.isRefrigeracion()) {
+                    if (tiempoAux <= tiempoMaximoNoRefrigerados) {
+                        this.tareas.add(tarea);
+                        this.tiempo_ejecucion += tarea.getTiempoEjecucion();
+                    } else {
+                        return false;
+                    }
+                } else {
+                    this.tareas.add(tarea);
+                    this.tiempo_ejecucion += tarea.getTiempoEjecucion();
                 }
-                return false;
+                this.cant_tareas_criticas++;
             } else {
-                this.addTarea(tarea);
-                return true;
+                return false;
+            }
+        } else {
+            if (!this.isRefrigeracion()) {
+                if (tiempoAux <= tiempoMaximoNoRefrigerados) {
+                    this.tareas.add(tarea);
+                    this.tiempo_ejecucion += tarea.getTiempoEjecucion();
+                } else {
+                    return false;
+                }
+            } else {
+                this.tareas.add(tarea);
+                this.tiempo_ejecucion += tarea.getTiempoEjecucion();
             }
         }
-        return false;
-    }
-
-    public void addTarea(Tarea tarea){
-        this.tareas.add(tarea);
-        this.setTiempo_ejecucion(this.getTiempoEjecucion()+tarea.getTiempo_ejecucion());
+        return true;
     }
 
     public void deleteTarea(Tarea tarea) {
+        if (tarea.isCritica()) {
+            this.cant_tareas_criticas--;
+        }
+
         this.tareas.remove(tarea);
-        this.setTiempo_ejecucion(this.getTiempoEjecucion()-tarea.getTiempo_ejecucion());
+        this.setTiempoEjecucion(this.getTiempoEjecucion() - tarea.getTiempoEjecucion());
     }
 
     public int getTiempoEjecucion() {
         return tiempo_ejecucion;
     }
 
-    public void setTiempo_ejecucion(int tiempo_ejecucion) {
+    public void setTiempoEjecucion(int tiempo_ejecucion) {
         this.tiempo_ejecucion = tiempo_ejecucion;
-    }
-
-    public void addTiempoEjecucion(int tiempoEjecucion) {
-        this.tiempo_ejecucion += tiempoEjecucion;
     }
 
     public String getId() {
@@ -91,16 +114,20 @@ public class Procesador {
         this.refrigeracion = refrigeracion;
     }
 
-    public int getAño_funcionamiento() {
+    public int getAñoFuncionamiento() {
         return año_funcionamiento;
     }
 
-    public void setAño_funcionamiento(int año_funcionamiento) {
+    public void setAñoFuncionamiento(int año_funcionamiento) {
         this.año_funcionamiento = año_funcionamiento;
+    }
+
+    public int getCantTareasCriticas() {
+        return this.cant_tareas_criticas;
     }
 
     @Override
     public String toString() {
-        return "Procesador ->" + " tareas: " + this.tareas.toString();
+        return "Procesador " + this.getId() + " refrigerado (" + this.isRefrigeracion() + ") con tiempo de ejecución " + this.tiempo_ejecucion + " y las tareas:";
     }
 }

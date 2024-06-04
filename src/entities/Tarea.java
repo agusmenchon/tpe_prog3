@@ -31,7 +31,7 @@ public class  Tarea {
         this.nombre = nombre;
     }
 
-    public int getTiempo_ejecucion() {
+    public int getTiempoEjecucion() {
         return tiempo_ejecucion;
     }
 
