@@ -27,26 +27,40 @@ public class Procesador {
         return new ArrayList<>(this.tareas);
     }
 
-    public boolean addTarea(Tarea tarea, int tiempoMaximoNoRefrigerados) {
+    public boolean canAdd(Tarea tarea, int tiempoMaximoNoRefrigerados) {
         int tiempoAux = this.tiempo_ejecucion + tarea.getTiempo_ejecucion();
 
         if (this.tareas_criticas < TAREAS_CRIT_MAX) {
-            if (!this.isRefrigeracion() && tiempoAux < tiempoMaximoNoRefrigerados) {
-                this.tareas.add(tarea);
-                return true;
+            if (!this.isRefrigeracion()) {
+                if(tiempoAux < tiempoMaximoNoRefrigerados){
+                    this.addTarea(tarea);
+                    return true;
+                }
+                return false;
             } else {
-
+                this.addTarea(tarea);
+                return true;
             }
         }
+        return false;
+    }
 
+    public void addTarea(Tarea tarea){
+        this.tareas.add(tarea);
+        this.setTiempo_ejecucion(this.getTiempoEjecucion()+tarea.getTiempo_ejecucion());
     }
 
     public void deleteTarea(Tarea tarea) {
         this.tareas.remove(tarea);
+        this.setTiempo_ejecucion(this.getTiempoEjecucion()-tarea.getTiempo_ejecucion());
     }
 
     public int getTiempoEjecucion() {
         return tiempo_ejecucion;
+    }
+
+    public void setTiempo_ejecucion(int tiempo_ejecucion) {
+        this.tiempo_ejecucion = tiempo_ejecucion;
     }
 
     public void addTiempoEjecucion(int tiempoEjecucion) {
@@ -83,5 +97,10 @@ public class Procesador {
 
     public void setAño_funcionamiento(int año_funcionamiento) {
         this.año_funcionamiento = año_funcionamiento;
+    }
+
+    @Override
+    public String toString() {
+        return "Procesador ->" + " tareas: " + this.tareas.toString();
     }
 }

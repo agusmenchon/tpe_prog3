@@ -1,5 +1,6 @@
 import algoritmos.Backtracking;
 import entities.Procesador;
+import entities.Solucion;
 import entities.Tarea;
 import utils.CSVReader;
 import utils.Timer;
@@ -90,16 +91,19 @@ public class Main {
         //todo pedir por consola parametros.
         Backtracking back = new Backtracking(procesadores, tareas);
 
-        HashMap<String, Procesador> asignacion = back.backtracking();
+        Solucion s = back.backtracking(500);
+        System.out.println(s.toString());
+//        System.out.println("solucion minima: " + s.getTiempoEjecucion());
+        System.out.println("iteraciones: " + back.getIteraciones());
 
-        for(Procesador proc : asignacion.keySet()){
-            System.out.print("Procesador: " + proc.getCodigo());
-            for (Iterator<Tarea> it = asignacion.get(proc).iterator(); it.hasNext(); ) {
-                Tarea task = it.next();
-                System.out.print("->"+task);
-            }
-            System.out.println();
-        }
+//        for(Procesador proc : asignacion.keySet()){
+//            System.out.print("Procesador: " + proc.getCodigo());
+//            for (Iterator<Tarea> it = asignacion.get(proc).iterator(); it.hasNext(); ) {
+//                Tarea task = it.next();
+//                System.out.print("->"+task);
+//            }
+//            System.out.println();
+//        }
 //        timer.start();
 //        timer.stop();
 

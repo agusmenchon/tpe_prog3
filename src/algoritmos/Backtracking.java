@@ -17,7 +17,7 @@ public class Backtracking {
     //private int tiempoProcNoRefrigerados;
     //private HashMap<Procesador, ArrayList<Tarea>> asignacionMinima;
     private Solucion asignacionMinima;
-    private int tiempoFinalEjecucion;
+//    private int tiempoFinalEjecucion;
 
 //    P4;COD_P4;false;2015
 //    ID, nombre, refrigerado, anio_func
@@ -30,13 +30,19 @@ public class Backtracking {
         //this.tiempoMax = tiempoMax;
         this.iteraciones = 0;
         //this.tiempoProcNoRefrigerados = tiempoProcNoRefrigerados;
-        this.asignacionMinima = new Solucion(null);
-        this.tiempoFinalEjecucion = Integer.MAX_VALUE;
+        this.asignacionMinima = new Solucion(procesadores);
+//        this.tiempoFinalEjecucion = Integer.MAX_VALUE;
+    }
+
+
+    public int getIteraciones() {
+        return iteraciones;
     }
 
     public Solucion backtracking(int tiempoMaximoNoRefrigerados) {
+        this.asignacionMinima.setTiempo_ejecucion(Integer.MAX_VALUE);
         this.asignacionMinima.clear();
-        this.tiempoFinalEjecucion = Integer.MAX_VALUE;
+//        this.tiempoFinalEjecucion = Integer.MAX_VALUE;
 
         Solucion asignacionActual = new Solucion(this.procesadores);
 
@@ -62,15 +68,40 @@ public class Backtracking {
 
         //si ya distribuimos todas las tareas:
         if (tareaIndex == this.tareas.length) {
+            int tiempoMAX = 0;
+
+            for (Procesador p: asignacionActual.getProcesadores()) {
+                 if(p.getTiempoEjecucion() > tiempoMAX){
+                     tiempoMAX = p.getTiempoEjecucion();
+                 }
+
+            }
+            asignacionActual.setTiempo_ejecucion(tiempoMAX);
+
+
             if (asignacionActual.getTiempoEjecucion() < this.asignacionMinima.getTiempoEjecucion()) {
                 this.asignacionMinima = asignacionActual;
+//                this.tiempoFinalEjecucion = asignacionMinima.getTiempoEjecucion();
             }
+
         } else {
             for (Procesador p: asignacionActual.getProcesadores()) {
-                p.addTarea(this.tareas[tareaIndex], tiempoMaximoNoRefrigerados);
+                //agregar solucion
+                p.canAdd(this.tareas[tareaIndex], tiempoMaximoNoRefrigerados);
+
+//                    asignacionActual.addTarea(p, this.tareas[tareaIndex]);
+//                    p.addTarea(this.tareas[tareaIndex]);
+//                }
+
                 //recursión.
+
+                _backtracking(tareaIndex+1, asignacionActual, tiempoMaximoNoRefrigerados );
+
+                //eliminar de la solucion actual
+//                asignacionActual.deleteTarea(p, this.tareas[tareaIndex]);
                 p.deleteTarea(this.tareas[tareaIndex]);
             }
+
         }
 
 
