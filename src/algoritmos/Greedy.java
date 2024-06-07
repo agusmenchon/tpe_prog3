@@ -18,6 +18,10 @@ public class Greedy {
         this.cantidadCandidatos = 0;
     }
 
+    /*El método greedy utiliza la estrategia de ir asignando las tareas al procesador que menos tiempo de ejecución
+    tenga en ese momento. Para ello, cada vez que selecciono una tarea recorro la lista de procesadores y retorno aquel
+    que cumpla con el criterio ya mencionado y, a su vez, también cumpla con los requisitos propios de la consigna. Una vez
+    fueron asignadas todas las tareas, genera una Solución con el array de procesadores y el tiempo de ejecución máximo.*/
     public Solucion greedy(int tiempoMaximoNoRefrigerados) {
         //construcción de la mejor solución, itera en tanto haya tareas para repartir:
         while (!this.tareas.isEmpty()) {
@@ -44,7 +48,7 @@ public class Greedy {
                 }
             }
             //remuevo la tarea ya asignada de la lista de tareas y sigo iterando.
-            this.tareas.removeFirst(); //como estamos en greedy, la decision que tomamos con la tarea es definitiva, asi que la sacamos de la lista vinculada y seguimos
+            this.tareas.removeFirst();
         }
 
         int tiempo = this.getMayorTiempoEjecucion(this.procesadores);
@@ -57,27 +61,26 @@ public class Greedy {
         Procesador procesadorSolucion = null;
 
         for (Procesador p: procesadores) {
+            //aumento la cantidad de candidatos considerados:
+            this.cantidadCandidatos++;
             if (p.getTiempoEjecucion() < tiempoEjecucionMinimo) {
                 tiempoEjecucionMinimo = p.getTiempoEjecucion();
                 procesadorSolucion = p;
             }
         }
-
-        //aumento la cantidad de candidatos considerados:
-        this.cantidadCandidatos++;
         return procesadorSolucion;
     }
 
     public int getMayorTiempoEjecucion(ArrayList<Procesador> procesadores) {
-        int solucion = 0;
+        int tiempoMayor = 0;
 
         for (Procesador p: procesadores) {
-            if (p.getTiempoEjecucion() > solucion) {
-                solucion = p.getTiempoEjecucion();
+            if (p.getTiempoEjecucion() > tiempoMayor) {
+                tiempoMayor = p.getTiempoEjecucion();
             }
         }
 
-        return solucion;
+        return tiempoMayor;
     }
 
     public int getCantidadCandidatos() {

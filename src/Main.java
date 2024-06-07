@@ -37,10 +37,8 @@ public class Main {
         }
 
         ///////// SEGUNDA PARTE TPE /////////
-        // TODO
         Backtracking();
 
-        //TODO
         Greedy();
 
     }
@@ -67,7 +65,6 @@ public class Main {
             iT++;
         }
 
-        //todo pedir por consola parametros.
         Backtracking backtracking = new Backtracking(procesadores, tareas);
 
         Solucion s = backtracking.backtracking(500);
@@ -123,4 +120,16 @@ public class Main {
             System.out.println("Candidatos considerados totales: " + greedy.getCantidadCandidatos());
         }
     }
+
+//    public static void lectorCSV() {
+//        HashMap<String, Procesador> procesadoresHash = new HashMap<>();
+//        HashMap<String, Tarea> tareasHash = new HashMap<>();
+//
+//        String tareasPath = "src/datasets/Tareas.csv";
+//        String procesadoresPath = "src/datasets/Procesadores.csv";
+//
+//        CSVReader reader = new CSVReader(tareasHash, procesadoresHash, tareasPath, procesadoresPath);
+//        reader.readProcessors();
+//        reader.readTasks();
+//    }
 }

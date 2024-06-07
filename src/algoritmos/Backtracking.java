@@ -39,6 +39,11 @@ public class Backtracking {
         }
     }
 
+    /*Este método backtracking va construyendo todas las combinaciones posibles y, una vez termina de asignar las tareas,
+    chequea que la asignaciónActual sea mejor que la asignaciónMínima previamente guardada. De ser el caso, genera una copia
+    de los procesadores y los guarda en la asignaciónMínima. En tanto esté llamando a la recursión, va asignando las tareas
+    a los diferentes procesadores chequeando que el tiempo de ejecución del procesador actual no exceda el tiempo de ejecución
+    de la asignaciónMínima. De ser el caso, aplica una poda y no entra a la recursión.*/
     private void _backtracking(int tareaIndex, Solucion asignacionActual, int tiempoMaximoNoRefrigerados) {
         //aumento this.iteraciones para contabilizar la cantidad de recursiones.
         this.iteraciones++;
@@ -50,6 +55,8 @@ public class Backtracking {
 
             //si la asignación actual es mejor que la asignación guardada, la reemplazo:
             if (asignacionActual.getTiempoEjecucion() < this.asignacionMinima.getTiempoEjecucion()) {
+                //realiza una copia de los procesadores para almacenarla en la asignaciónMínima, ya que de otra forma
+                //las unidades de memoria son las mismas.
                 this.reemplazarAsignacionMinima(asignacionActual);
             }
         } else {
@@ -72,7 +79,7 @@ public class Backtracking {
         }
     }
 
-    public void reemplazarAsignacionMinima(Solucion asignacionActual) { //hacemos una copia de la asignacion actual que tenemos en los procesadores y lo guardamos en la mejor asignacion encontrada hasta el momento en una nueva unidad de memoria
+    public void reemplazarAsignacionMinima(Solucion asignacionActual) {
         this.asignacionMinima.clear();
         for (Procesador p: asignacionActual.getProcesadores()) {
             Procesador tmp = new Procesador(p.getId(), p.getCodigo(), p.isRefrigeracion(), p.getAñoFuncionamiento(), p.getTiempoEjecucion(), p.getCantTareasCriticas());
