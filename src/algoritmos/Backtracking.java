@@ -72,7 +72,7 @@ public class Backtracking {
         }
     }
 
-    public void reemplazarAsignacionMinima(Solucion asignacionActual) {
+    public void reemplazarAsignacionMinima(Solucion asignacionActual) { //hacemos una copia de la asignacion actual que tenemos en los procesadores y lo guardamos en la mejor asignacion encontrada hasta el momento en una nueva unidad de memoria
         this.asignacionMinima.clear();
         for (Procesador p: asignacionActual.getProcesadores()) {
             Procesador tmp = new Procesador(p.getId(), p.getCodigo(), p.isRefrigeracion(), p.getAñoFuncionamiento(), p.getTiempoEjecucion(), p.getCantTareasCriticas());

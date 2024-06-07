@@ -40,36 +40,18 @@ public class Procesador {
     public boolean addTarea(Tarea tarea, int tiempoMaximoNoRefrigerados) {
         int tiempoAux = this.tiempo_ejecucion + tarea.getTiempoEjecucion();
 
-        if (tarea.isCritica()) {
-            if (this.cant_tareas_criticas < TAREAS_CRIT_MAX) {
-                if (!this.isRefrigeracion()) {
-                    if (tiempoAux <= tiempoMaximoNoRefrigerados) {
-                        this.tareas.add(tarea);
-                        this.tiempo_ejecucion += tarea.getTiempoEjecucion();
-                    } else {
-                        return false;
-                    }
-                } else {
-                    this.tareas.add(tarea);
-                    this.tiempo_ejecucion += tarea.getTiempoEjecucion();
-                }
-                this.cant_tareas_criticas++;
-            } else {
-                return false;
-            }
-        } else {
-            if (!this.isRefrigeracion()) {
-                if (tiempoAux <= tiempoMaximoNoRefrigerados) {
-                    this.tareas.add(tarea);
-                    this.tiempo_ejecucion += tarea.getTiempoEjecucion();
-                } else {
-                    return false;
-                }
-            } else {
-                this.tareas.add(tarea);
-                this.tiempo_ejecucion += tarea.getTiempoEjecucion();
-            }
+        if (!this.isRefrigeracion() && tiempoAux > tiempoMaximoNoRefrigerados) { //si el procesador es NO refrigerado
+            return false; //no puedo agregar mas tareas si supero el tiempo max establecido para proc NO refrigerados
         }
+
+        if (tarea.isCritica() && this.cant_tareas_criticas >= TAREAS_CRIT_MAX) {
+          return false; //no puedo agregar mas tareas criticas
+        }
+
+        if (tarea.isCritica()) this.cant_tareas_criticas++;
+
+        this.tareas.add(tarea);
+        this.tiempo_ejecucion += tarea.getTiempoEjecucion();
         return true;
     }
 

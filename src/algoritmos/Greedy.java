@@ -38,13 +38,13 @@ public class Greedy {
                     if (procTmp.isEmpty()) {
                         return null;
                     } else {
-                        p = this.getProcesadorMinimo(procTmp);
+                        p = this.getProcesadorMinimo(procTmp); //traemos el proximo procesador de minimo tiempo de ejecucion de los que quedaron
                         isAgregada = p.addTarea(t, tiempoMaximoNoRefrigerados);
                     }
                 }
             }
             //remuevo la tarea ya asignada de la lista de tareas y sigo iterando.
-            this.tareas.removeFirst();
+            this.tareas.removeFirst(); //como estamos en greedy, la decision que tomamos con la tarea es definitiva, asi que la sacamos de la lista vinculada y seguimos
         }
 
         int tiempo = this.getMayorTiempoEjecucion(this.procesadores);
