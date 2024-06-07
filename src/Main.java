@@ -1,18 +1,18 @@
 import algoritmos.Backtracking;
+import algoritmos.Greedy;
 import entities.Procesador;
 import entities.Solucion;
 import entities.Tarea;
 import utils.CSVReader;
-import utils.Timer;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
-
+        ///////// PRIMERA PARTE TPE /////////
         Servicios servicios = new Servicios("src/datasets/Procesadores.csv", "src/datasets/Tareas.csv");
 
         System.out.println("HASHMAP DE TAREAS");
@@ -36,60 +36,91 @@ public class Main {
             System.out.println(t);
         }
 
+        ///////// SEGUNDA PARTE TPE /////////
         // TODO
-        Backtracking(servicios);
+        Backtracking();
 
         //TODO
-        // Greedy();
+        Greedy();
 
     }
 
-    public static void Backtracking(Servicios servicios){
+    public static void Backtracking(){
         System.out.println("--- BACKTRACKING ---");
 
-        ArrayList<Procesador> procesadores = new ArrayList<>();
-        procesadores.addAll(servicios.getProcesadores());
+        HashMap<String, Procesador> procesadoresHash = new HashMap<>();
+        HashMap<String, Tarea> tareasHash = new HashMap<>();
 
-        Tarea[] tareas = new Tarea[servicios.getTareas().size()];
+        String tareasPath = "src/datasets/Tareas.csv";
+        String procesadoresPath = "src/datasets/Procesadores.csv";
+
+        CSVReader reader = new CSVReader(tareasHash, procesadoresHash, tareasPath, procesadoresPath);
+        reader.readProcessors();
+        reader.readTasks();
+
+        ArrayList<Procesador> procesadores = new ArrayList<>(procesadoresHash.values());
+        Tarea[] tareas = new Tarea[tareasHash.size()];
 
         int iT = 0;
-        for (Tarea t: servicios.getTareas()) {
-            tareas[iT] = t;
+        for (Tarea tarea: tareasHash.values()) {
+            tareas[iT] = tarea;
             iT++;
         }
 
         //todo pedir por consola parametros.
-        Backtracking back = new Backtracking(procesadores, tareas);
+        Backtracking backtracking = new Backtracking(procesadores, tareas);
 
-        Solucion s = back.backtracking(500);
+        Solucion s = backtracking.backtracking(500);
 
-        System.out.println("La solución con tiempo de ejecución " + s.getTiempoEjecucion() + " es:");
+        if (s == null) {
+            System.out.println("Backtracking no encontró una solución.");
+        } else {
+            System.out.println("La solución con tiempo de ejecución " + s.getTiempoEjecucion() + " es:");
 
-        for (Procesador p: s.getProcesadores()) {
-            System.out.println(p);
-            for (Tarea t: p.getTareas()) {
-                System.out.println(t);
+            for (Procesador p: s.getProcesadores()) {
+                System.out.println(p);
+                for (Tarea t: p.getTareas()) {
+                    System.out.println(t);
+                }
             }
-        }
 
-        //System.out.println(s.toString());
-        System.out.println("Iteraciones totales: " + back.getIteraciones());
+            System.out.println("Iteraciones totales: " + backtracking.getIteraciones());
+        }
     }
 
     public static void Greedy(){
-        System.out.println("--- Greedy ---");
+        System.out.println("--- GREEDY ---");
 
-        String pathTareas = "src/datasets/Tareas.csv";
-        String pathProcesadores = "src/datasets/Procesadores.csv";
+        HashMap<String, Procesador> procesadoresHash = new HashMap<>();
+        HashMap<String, Tarea> tareasHash = new HashMap<>();
 
-        HashMap<String, Tarea> tareas = new HashMap<>();
-        HashMap<String, Procesador> procesadores = new HashMap<>();
+        String tareasPath = "src/datasets/Tareas.csv";
+        String procesadoresPath = "src/datasets/Procesadores.csv";
 
-        CSVReader reader = new CSVReader(tareas, procesadores, pathTareas, pathProcesadores);
+        CSVReader reader = new CSVReader(tareasHash, procesadoresHash, tareasPath, procesadoresPath);
         reader.readProcessors();
         reader.readTasks();
 
-        System.out.println(procesadores.toString());
-    }
+        ArrayList<Procesador> procesadores = new ArrayList<>(procesadoresHash.values());
+        LinkedList<Tarea> tareas = new LinkedList<>(tareasHash.values());
 
+        Greedy greedy = new Greedy(procesadores, tareas);
+
+        Solucion s = greedy.greedy(500);
+
+        if (s == null) {
+            System.out.println("Greedy no encontró una solución.");
+        } else {
+            System.out.println("La solución con tiempo de ejecución " + s.getTiempoEjecucion() + " es:");
+
+            for (Procesador p: s.getProcesadores()) {
+                System.out.println(p);
+                for (Tarea t: p.getTareas()) {
+                    System.out.println(t);
+                }
+            }
+
+            System.out.println("Candidatos considerados totales: " + greedy.getCantidadCandidatos());
+        }
+    }
 }

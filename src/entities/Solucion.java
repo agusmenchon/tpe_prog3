@@ -16,6 +16,11 @@ public class Solucion {
         tiempo_ejecucion = Integer.MAX_VALUE;
     }
 
+    public Solucion(ArrayList<Procesador> p, int t) {
+        procesadores = new ArrayList<>(p);
+        tiempo_ejecucion = t;
+    }
+
     public void clear() {
         this.procesadores.clear();
     }
@@ -30,5 +35,16 @@ public class Solucion {
 
     public void setTiempoEjecucion(int tiempo_ejecucion) {
         this.tiempo_ejecucion = tiempo_ejecucion;
+    }
+
+    public void defineTiempoEjecucion() {
+        int tiempoMAX = 0;
+        for (Procesador p: this.procesadores) {
+            if (p.getTiempoEjecucion() > tiempoMAX){
+                tiempoMAX = p.getTiempoEjecucion();
+            }
+        }
+
+        this.setTiempoEjecucion(tiempoMAX);
     }
 }

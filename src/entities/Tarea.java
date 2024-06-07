@@ -56,6 +56,6 @@ public class  Tarea {
     }
 
     public String toString() {
-        return "La tarea " + this.id + " con prioridad: " + this.prioridad + " y si es crítica: " + this.critica;
+        return "La tarea " + this.id + " con prioridad: " + this.prioridad + " y tiempo " + this.tiempo_ejecucion + " y si es crítica: " + this.critica;
     }
 }

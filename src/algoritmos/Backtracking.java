@@ -28,10 +28,15 @@ public class Backtracking {
         this.asignacionMinima.clear();
 
         Solucion asignacionActual = new Solucion(this.procesadores);
+        asignacionActual.setTiempoEjecucion(0);
 
         _backtracking(0, asignacionActual, tiempoMaximoNoRefrigerados);
 
-        return asignacionMinima;
+        if (asignacionMinima.getTiempoEjecucion() == Integer.MAX_VALUE) {
+            return null;
+        } else {
+            return asignacionMinima;
+        }
     }
 
     private void _backtracking(int tareaIndex, Solucion asignacionActual, int tiempoMaximoNoRefrigerados) {
@@ -40,39 +45,41 @@ public class Backtracking {
 
         //si ya distribuimos todas las tareas:
         if (tareaIndex == this.tareas.length) {
-            //busco el procesador con mayor tiempo de ejecución de la asignación actual:
-            int tiempoMAX = 0;
-            for (Procesador p: asignacionActual.getProcesadores()) {
-                 if (p.getTiempoEjecucion() > tiempoMAX){
-                     tiempoMAX = p.getTiempoEjecucion();
-                 }
-            }
+            //la asignación actual define su tiempo de ejecución cotejando sus procesadores:
+            asignacionActual.defineTiempoEjecucion();
 
-            //establezco como tiempo de ejecución de la asignación actual al mayor tiempo de ejecución
-            //de todos los procesadores:
-            asignacionActual.setTiempoEjecucion(tiempoMAX);
-
+            //si la asignación actual es mejor que la asignación guardada, la reemplazo:
             if (asignacionActual.getTiempoEjecucion() < this.asignacionMinima.getTiempoEjecucion()) {
-                this.asignacionMinima.clear();
-                for (Procesador p: asignacionActual.getProcesadores()) {
-                    Procesador tmp = new Procesador(p.getId(), p.getCodigo(), p.isRefrigeracion(), p.getAñoFuncionamiento(), p.getTiempoEjecucion(), p.getCantTareasCriticas());
-                    tmp.getTareas().addAll(p.getTareas());
-
-                    this.asignacionMinima.getProcesadores().add(tmp);
-                }
-                this.asignacionMinima.setTiempoEjecucion(asignacionActual.getTiempoEjecucion());
+                this.reemplazarAsignacionMinima(asignacionActual);
             }
         } else {
             for (Procesador p: asignacionActual.getProcesadores()) {
-                //intento agregar la tarea actual al procesador:
-                boolean isAgregada = p.addTarea(this.tareas[tareaIndex], tiempoMaximoNoRefrigerados);
+                int tiempoParcial = p.getTiempoEjecucion() + this.tareas[tareaIndex].getTiempoEjecucion();
 
-                //recursión.
-                if (isAgregada) {
-                    _backtracking(tareaIndex+1, asignacionActual, tiempoMaximoNoRefrigerados);
-                    p.deleteTarea(this.tareas[tareaIndex]);
+                //PODA: si el procesador actual excediera el tiempo guardado al agregar la tarea,
+                //no ejecuta y pasa al próximo procesador:
+                if (tiempoParcial < asignacionMinima.getTiempoEjecucion()) {
+                    //intento agregar la tarea actual al procesador:
+                    boolean isAgregada = p.addTarea(this.tareas[tareaIndex], tiempoMaximoNoRefrigerados);
+
+                    //si la tarea es agregada, ingresa a la recursión:
+                    if (isAgregada) {
+                        _backtracking(tareaIndex+1, asignacionActual, tiempoMaximoNoRefrigerados);
+                        p.deleteTarea(this.tareas[tareaIndex]);
+                    }
                 }
             }
         }
+    }
+
+    public void reemplazarAsignacionMinima(Solucion asignacionActual) {
+        this.asignacionMinima.clear();
+        for (Procesador p: asignacionActual.getProcesadores()) {
+            Procesador tmp = new Procesador(p.getId(), p.getCodigo(), p.isRefrigeracion(), p.getAñoFuncionamiento(), p.getTiempoEjecucion(), p.getCantTareasCriticas());
+            tmp.getTareas().addAll(p.getTareas());
+
+            this.asignacionMinima.getProcesadores().add(tmp);
+        }
+        this.asignacionMinima.setTiempoEjecucion(asignacionActual.getTiempoEjecucion());
     }
 }
