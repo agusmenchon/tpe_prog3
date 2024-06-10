@@ -40,19 +40,19 @@ public class Procesador {
     public boolean checkAddTarea(Tarea tarea, int tiempoMaximoNoRefrigerados){
         int tiempoEstimadoProcesador = this.tiempo_ejecucion + tarea.getTiempoEjecucion();
 
+        //no puedo agregar mas tareas si:
+        // supero el tiempo max establecido para proc NO refrigerados OR la tarea es critica y ya estamos igual o superando el lim de criticas permitidas
         if ((!this.isRefrigeracion() && tiempoEstimadoProcesador > tiempoMaximoNoRefrigerados) || (tarea.isCritica() && this.cant_tareas_criticas >= TAREAS_CRIT_MAX)) {
-            //no puedo agregar mas tareas si supero el tiempo max establecido para proc NO refrigerados OR //no puedo agregar mas tareas criticas
             return false;
         }
         return true;
     }
 
-    public boolean addTarea(Tarea tarea) {
+    public void addTarea(Tarea tarea) {
         if (tarea.isCritica()) this.cant_tareas_criticas++;
 
         this.tareas.add(tarea);
         this.tiempo_ejecucion += tarea.getTiempoEjecucion();
-        return true;
     }
 
     public void deleteTarea(Tarea tarea) {

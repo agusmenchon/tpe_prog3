@@ -94,7 +94,7 @@ public class Servicios {
     }
 
     //Expresar la complejidad temporal del servicio 3.
-    //O(Log2n)
+    //O(n)
     public List<Tarea> servicio3(int prioridadInferior, int prioridadSuperior) {
         List<Tarea> res = new ArrayList<>();
 
@@ -114,6 +114,9 @@ public class Servicios {
         return res;
     }
 
+    //Busqueda binaria en este caso retornara la posicion del elemento (si lo encuentra),
+    // de lo contrario retornará la posicion > mas proxima al elem x buscado
+    //la idea detrás de la utilizacion del algoritmo es mejorar el caso promedio aunque no reduzca la complejidad en el big(O) notation
     public int busquedaBinaria(Tarea[] array, int x, int inicio, int fin) {
         int medio;
 
