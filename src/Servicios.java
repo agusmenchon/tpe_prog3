@@ -76,11 +76,13 @@ public class Servicios {
     }
 
     //Expresar la complejidad temporal del servicio 1.
+    //O(1)
     public Tarea servicio1(String ID) {
         return tareas.get(ID);
     }
 
     //Expresar la complejidad temporal del servicio 2.
+    //O(n)
     public List<Tarea> servicio2(boolean esCritica) {
         List<Tarea> res = new ArrayList<>();
         for (Tarea t: tareas.values()) {
@@ -92,8 +94,8 @@ public class Servicios {
     }
 
     //Expresar la complejidad temporal del servicio 3.
+    //O(Log2n)
     public List<Tarea> servicio3(int prioridadInferior, int prioridadSuperior) {
-        System.out.println(arrayTareas.length);
         List<Tarea> res = new ArrayList<>();
 
         int inicio = busquedaBinaria(arrayTareas, prioridadInferior, 0, arrayTareas.length, 0);

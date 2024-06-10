@@ -67,7 +67,7 @@ public class Main {
 
         Backtracking backtracking = new Backtracking(procesadores, tareas);
 
-        Solucion s = backtracking.backtracking(500);
+        Solucion s = backtracking.backtracking(130);
 
         if (s == null) {
             System.out.println("Backtracking no encontró una solución.");
@@ -103,7 +103,7 @@ public class Main {
 
         Greedy greedy = new Greedy(procesadores, tareas);
 
-        Solucion s = greedy.greedy(500);
+        Solucion s = greedy.greedy(130);
 
         if (s == null) {
             System.out.println("Greedy no encontró una solución.");
