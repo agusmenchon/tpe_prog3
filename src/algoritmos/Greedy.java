@@ -26,29 +26,33 @@ public class Greedy {
         //construcción de la mejor solución, itera en tanto haya tareas para repartir:
         while (!this.tareas.isEmpty()) {
             Tarea t = this.tareas.getFirst();
-            Procesador p = this.getProcesadorMinimo(this.procesadores);
+            Procesador p = this.getProcesadorMinimo(this.procesadores, t, tiempoMaximoNoRefrigerados);
+
+            if (p == null) return null;
 
             boolean isAgregada = p.addTarea(t, tiempoMaximoNoRefrigerados);
 
-            //si la tarea no puede agregarse, intenta agregarla en otro procesador:
-            if (!isAgregada) {
-                ArrayList<Procesador> procTmp = new ArrayList<>(this.procesadores);
-
-                while (!isAgregada) {
-                    //remueve del array temporal el procesador que ya probó:
-                    procTmp.remove(p);
-
-                    //si el array temporal queda vacío significa que no hay solución:
-                    if (procTmp.isEmpty()) {
-                        return null;
-                    } else {
-                        p = this.getProcesadorMinimo(procTmp); //traemos el proximo procesador de minimo tiempo de ejecucion de los que quedaron
-                        isAgregada = p.addTarea(t, tiempoMaximoNoRefrigerados);
-                    }
-                }
-            }
             //remuevo la tarea ya asignada de la lista de tareas y sigo iterando.
             this.tareas.removeFirst();
+
+            //si la tarea no puede agregarse, intenta agregarla en otro procesador:
+//            if (!isAgregada) {
+//                ArrayList<Procesador> procTmp = new ArrayList<>(this.procesadores);
+//
+//                while (!isAgregada) {
+//                    //remueve del array temporal el procesador que ya probó:
+//                    procTmp.remove(p);
+//
+//                    //si el array temporal queda vacío significa que no hay solución:
+//                    if (procTmp.isEmpty()) {
+//                        return null;
+//                    } else {
+//                        p = this.getProcesadorMinimo(procTmp); //traemos el proximo procesador de minimo tiempo de ejecucion de los que quedaron
+//                        isAgregada = p.addTarea(t, tiempoMaximoNoRefrigerados);
+//                    }
+//                }
+//            }
+
         }
 
         int tiempo = this.getMayorTiempoEjecucion(this.procesadores);
@@ -56,14 +60,14 @@ public class Greedy {
         return new Solucion(this.procesadores, tiempo);
     }
 
-    public Procesador getProcesadorMinimo(ArrayList<Procesador> procesadores) {
+    public Procesador getProcesadorMinimo(ArrayList<Procesador> procesadores, Tarea t, int tiempoMaxNoRefrig) {
         int tiempoEjecucionMinimo = Integer.MAX_VALUE;
         Procesador procesadorSolucion = null;
 
         for (Procesador p: procesadores) {
             //aumento la cantidad de candidatos considerados:
             this.cantidadCandidatos++;
-            if (p.getTiempoEjecucion() < tiempoEjecucionMinimo) {
+            if ((p.getTiempoEjecucion() < tiempoEjecucionMinimo) && p.checkAddTarea(t, tiempoMaxNoRefrig)) {
                 tiempoEjecucionMinimo = p.getTiempoEjecucion();
                 procesadorSolucion = p;
             }
