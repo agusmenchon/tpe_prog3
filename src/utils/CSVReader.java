@@ -1,5 +1,6 @@
 package utils;
 
+import entities.Procesador;
 import entities.Tarea;
 
 import java.io.BufferedReader;
@@ -11,11 +12,20 @@ import java.util.HashMap;
 
 
 public class CSVReader {
+    private HashMap<String, Tarea> tareas;
+    private String taskPath;
 
-    public CSVReader() {
+    private HashMap<String, Procesador> procesadores;
+    private String processorPath;
+
+    public CSVReader(HashMap<String, Tarea> tareas,HashMap<String, Procesador> procesadores, String taskPath, String processorPath) {
+        this.tareas = tareas;
+        this.procesadores = procesadores;
+        this.taskPath = taskPath;
+        this.processorPath = processorPath;
     }
 
-    public void readTasks(String taskPath, HashMap<String, Tarea> tareas) {
+    public void readTasks() {
 
         // Obtengo una lista con las lineas del archivo
         // lines.get(0) tiene la primer linea del archivo
@@ -37,7 +47,7 @@ public class CSVReader {
         }
     }
 
-    public void readProcessors(String processorPath) {
+    public void readProcessors() {
 
         // Obtengo una lista con las lineas del archivo
         // lines.get(0) tiene la primer linea del archivo
@@ -51,6 +61,9 @@ public class CSVReader {
             Boolean refrigerado = Boolean.parseBoolean(line[2].trim());
             Integer anio = Integer.parseInt(line[3].trim());
             // Aca instanciar lo que necesiten en base a los datos leidos
+
+            Procesador p = new Procesador(id, codigo, refrigerado, anio);
+            procesadores.put(p.getId(), p);
         }
     }
 

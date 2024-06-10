@@ -1,8 +1,10 @@
+import entities.Procesador;
 import entities.Tarea;
 import org.w3c.dom.ranges.RangeException;
 import utils.CSVReader;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 
@@ -14,17 +16,29 @@ import java.util.List;
 public class Servicios {
 
     private HashMap<String, Tarea> tareas;
+    private HashMap<String, Procesador> procesadores;
     private Tarea arrayTareas[];
 
     //Expresar la complejidad temporal del constructor.
     public Servicios(String pathProcesadores, String pathTareas)
     {
-        tareas = new HashMap<>();
-        CSVReader reader = new CSVReader();
-        reader.readProcessors(pathProcesadores);
-        reader.readTasks(pathTareas, tareas);
+        this.tareas = new HashMap<>();
+        //REVISAR
+        this.procesadores = new HashMap<>();
+
+        CSVReader reader = new CSVReader(tareas, procesadores, pathTareas, pathProcesadores);
+        reader.readProcessors();
+        reader.readTasks();
         arrayTareas = new Tarea[tareas.size()];
         insertarOrdenadoArray();
+    }
+
+    public Collection<Tarea> getTareas() {
+        return tareas.values();
+    }
+
+    public Collection<Procesador> getProcesadores() {
+        return procesadores.values();
     }
 
     private void insertarOrdenadoArray() {
@@ -62,11 +76,13 @@ public class Servicios {
     }
 
     //Expresar la complejidad temporal del servicio 1.
+    //O(1)
     public Tarea servicio1(String ID) {
         return tareas.get(ID);
     }
 
     //Expresar la complejidad temporal del servicio 2.
+    //O(n)
     public List<Tarea> servicio2(boolean esCritica) {
         List<Tarea> res = new ArrayList<>();
         for (Tarea t: tareas.values()) {
@@ -78,6 +94,7 @@ public class Servicios {
     }
 
     //Expresar la complejidad temporal del servicio 3.
+    //O(Log2n)
     public List<Tarea> servicio3(int prioridadInferior, int prioridadSuperior) {
         List<Tarea> res = new ArrayList<>();
 
@@ -112,5 +129,4 @@ public class Servicios {
 
         return inicio;
     }
-
 }

@@ -1,6 +1,6 @@
 package entities;
 
-public class Tarea {
+public class  Tarea {
     private String id;
     private String nombre;
     private int tiempo_ejecucion;
@@ -31,7 +31,7 @@ public class Tarea {
         this.nombre = nombre;
     }
 
-    public int getTiempo_ejecucion() {
+    public int getTiempoEjecucion() {
         return tiempo_ejecucion;
     }
 
@@ -56,6 +56,6 @@ public class Tarea {
     }
 
     public String toString() {
-        return "La tarea " + this.id + " con prioridad: " + this.prioridad + " y si es crítica: " + this.critica;
+        return "La tarea " + this.id + " con prioridad: " + this.prioridad + " y tiempo " + this.tiempo_ejecucion + " y si es crítica: " + this.critica;
     }
 }
