@@ -23,44 +23,35 @@ public class Greedy {
     que cumpla con el criterio ya mencionado y, a su vez, también cumpla con los requisitos propios de la consigna. Una vez
     fueron asignadas todas las tareas, genera una Solución con el array de procesadores y el tiempo de ejecución máximo.*/
     public Solucion greedy(int tiempoMaximoNoRefrigerados) {
+
+        for (Procesador p : this.procesadores){ //lo primero que hacemos es agregar una tarea por procesador, ya que al principio no tendran tareas asignadas y
+            // siempre habra procesadores minimos con 0 tiempoEjecucion hasta que todos tengan una tarea asignada al menos
+            this.cantidadCandidatos++; //aumento la cantidad de candidatos considerados
+            Tarea t = this.tareas.getFirst();
+            if (p.checkAddTarea(t, tiempoMaximoNoRefrigerados)) {
+                p.addTarea(t);
+                this.tareas.removeFirst();
+            }
+        }
+
         //construcción de la mejor solución, itera en tanto haya tareas para repartir:
         while (!this.tareas.isEmpty()) {
             Tarea t = this.tareas.getFirst();
-            Procesador p = this.getProcesadorMinimo(this.procesadores, t, tiempoMaximoNoRefrigerados);
+            Procesador p = this.getProcesadorMinimoFactible(this.procesadores, t, tiempoMaximoNoRefrigerados);
 
             if (p == null) return null;
 
-            boolean isAgregada = p.addTarea(t, tiempoMaximoNoRefrigerados);
+            p.addTarea(t);
 
             //remuevo la tarea ya asignada de la lista de tareas y sigo iterando.
             this.tareas.removeFirst();
-
-            //si la tarea no puede agregarse, intenta agregarla en otro procesador:
-//            if (!isAgregada) {
-//                ArrayList<Procesador> procTmp = new ArrayList<>(this.procesadores);
-//
-//                while (!isAgregada) {
-//                    //remueve del array temporal el procesador que ya probó:
-//                    procTmp.remove(p);
-//
-//                    //si el array temporal queda vacío significa que no hay solución:
-//                    if (procTmp.isEmpty()) {
-//                        return null;
-//                    } else {
-//                        p = this.getProcesadorMinimo(procTmp); //traemos el proximo procesador de minimo tiempo de ejecucion de los que quedaron
-//                        isAgregada = p.addTarea(t, tiempoMaximoNoRefrigerados);
-//                    }
-//                }
-//            }
-
         }
 
         int tiempo = this.getMayorTiempoEjecucion(this.procesadores);
-
         return new Solucion(this.procesadores, tiempo);
     }
 
-    public Procesador getProcesadorMinimo(ArrayList<Procesador> procesadores, Tarea t, int tiempoMaxNoRefrig) {
+    public Procesador getProcesadorMinimoFactible(ArrayList<Procesador> procesadores, Tarea t, int tiempoMaxNoRefrig) {
         int tiempoEjecucionMinimo = Integer.MAX_VALUE;
         Procesador procesadorSolucion = null;
 

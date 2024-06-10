@@ -66,11 +66,12 @@ public class Backtracking {
                 //PODA: si el procesador actual excediera el tiempo guardado al agregar la tarea,
                 //no ejecuta y pasa al próximo procesador:
                 if (tiempoParcial < asignacionMinima.getTiempoEjecucion()) {
-                    //intento agregar la tarea actual al procesador:
-                    boolean isAgregada = p.addTarea(this.tareas[tareaIndex], tiempoMaximoNoRefrigerados);
+                    //chequeo que se pueda agregar la tarea actual al procesador:
+                    boolean isAgregable = p.checkAddTarea(this.tareas[tareaIndex], tiempoMaximoNoRefrigerados);
 
-                    //si la tarea es agregada, ingresa a la recursión:
-                    if (isAgregada) {
+                    //si la tarea se puede agregar, la agrego y luego ingresa a la recursión:
+                    if (isAgregable) {
+                        p.addTarea(this.tareas[tareaIndex]);
                         _backtracking(tareaIndex+1, asignacionActual, tiempoMaximoNoRefrigerados);
                         p.deleteTarea(this.tareas[tareaIndex]);
                     }
