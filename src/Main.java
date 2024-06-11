@@ -18,8 +18,9 @@ public class Main {
         System.out.println("HASHMAP DE TAREAS");
         servicios.printHashMap();
 
-        System.out.println("SERVICIO 1 con tarea 3");
-        System.out.println(servicios.servicio1("T3"));
+        String tId = "T3";
+        System.out.println("SERVICIO 1 con tarea " + tId);
+        System.out.println(servicios.servicio1(tId));
 
         System.out.println("SERVICIO 2 con tareas críticas");
         List<Tarea> listTareasCriticas = servicios.servicio2(true);
@@ -30,8 +31,10 @@ public class Main {
         System.out.println("ARRAY ORDENADO SEGÚN PRIORIDAD DE TAREAS");
         servicios.printArray();
 
-        System.out.println("SERVICIO 3 de 50 a 75");
-        List<Tarea> listTareasPrioridad = servicios.servicio3(50, 75);
+        int pMin = 23;
+        int pMax = 91;
+        System.out.println("SERVICIO 3 de " + pMin + " a " + pMax);
+        List<Tarea> listTareasPrioridad = servicios.servicio3(pMin, pMax);
 
         for (Tarea t: listTareasPrioridad) {
             System.out.println(t);
@@ -82,7 +85,7 @@ public class Main {
                 }
             }
 
-            System.out.println("Iteraciones totales: " + backtracking.getIteraciones());
+            System.out.println("Estados generados totales: " + backtracking.getRecursiones());
         }
     }
 
@@ -121,16 +124,4 @@ public class Main {
             System.out.println("Candidatos considerados totales: " + greedy.getCantidadCandidatos());
         }
     }
-
-//    public static void lectorCSV() {
-//        HashMap<String, Procesador> procesadoresHash = new HashMap<>();
-//        HashMap<String, Tarea> tareasHash = new HashMap<>();
-//
-//        String tareasPath = "src/datasets/Tareas.csv";
-//        String procesadoresPath = "src/datasets/Procesadores.csv";
-//
-//        CSVReader reader = new CSVReader(tareasHash, procesadoresHash, tareasPath, procesadoresPath);
-//        reader.readProcessors();
-//        reader.readTasks();
-//    }
 }

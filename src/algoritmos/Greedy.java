@@ -53,7 +53,7 @@ public class Greedy {
 
     //en este metodo obtendremos el procesador de menor tiempo de ejecucion que ademas cumpla con los criterios de la consigna
     //que estan derivados por cuestiones de responsabilidad al metodo checkAddTarea
-    public Procesador getProcesadorMinimoFactible(ArrayList<Procesador> procesadores, Tarea t, int tiempoMaxNoRefrig) {
+    private Procesador getProcesadorMinimoFactible(ArrayList<Procesador> procesadores, Tarea t, int tiempoMaxNoRefrig) {
         int tiempoEjecucionMinimo = Integer.MAX_VALUE;
         Procesador procesadorSolucion = null;
 

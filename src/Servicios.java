@@ -117,7 +117,7 @@ public class Servicios {
     //Busqueda binaria en este caso retornara la posicion del elemento (si lo encuentra),
     // de lo contrario retornará la posicion > mas proxima al elem x buscado
     //la idea detrás de la utilizacion del algoritmo es mejorar el caso promedio aunque no reduzca la complejidad en el big(O) notation
-    public int busquedaBinaria(Tarea[] array, int x, int inicio, int fin) {
+    private int busquedaBinaria(Tarea[] array, int x, int inicio, int fin) {
         int medio;
 
         while (inicio <= fin) {

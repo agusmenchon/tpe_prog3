@@ -76,32 +76,17 @@ public class Procesador {
         return id;
     }
 
-    public void setId(String id) {
-        this.id = id;
-    }
-
     public String getCodigo() {
         return codigo;
-    }
-
-    public void setCodigo(String codigo) {
-        this.codigo = codigo;
     }
 
     public boolean isRefrigeracion() {
         return refrigeracion;
     }
 
-    public void setRefrigeracion(boolean refrigeracion) {
-        this.refrigeracion = refrigeracion;
-    }
 
     public int getAñoFuncionamiento() {
         return año_funcionamiento;
-    }
-
-    public void setAñoFuncionamiento(int año_funcionamiento) {
-        this.año_funcionamiento = año_funcionamiento;
     }
 
     public int getCantTareasCriticas() {

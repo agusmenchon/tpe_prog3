@@ -9,18 +9,18 @@ import java.util.*;
 public class Backtracking {
     private ArrayList<Procesador> procesadores;
     private Tarea[] tareas;
-    private int iteraciones;
+    private int recursiones;
     private Solucion asignacionMinima;
 
     public Backtracking(ArrayList<Procesador> procesadores, Tarea[] tareas) {
         this.procesadores = procesadores;
         this.tareas = tareas;
-        this.iteraciones = 0;
+        this.recursiones = 0;
         this.asignacionMinima = new Solucion();
     }
 
-    public int getIteraciones() {
-        return iteraciones;
+    public int getRecursiones() {
+        return this.recursiones;
     }
 
     public Solucion backtracking(int tiempoMaximoNoRefrigerados) {
@@ -45,8 +45,8 @@ public class Backtracking {
     a los diferentes procesadores chequeando que el tiempo de ejecución del procesador actual no exceda el tiempo de ejecución
     de la asignaciónMínima. De ser el caso, aplica una poda y no entra a la recursión.*/
     private void _backtracking(int tareaIndex, Solucion asignacionActual, int tiempoMaximoNoRefrigerados) {
-        //aumento this.iteraciones para contabilizar la cantidad de recursiones.
-        this.iteraciones++;
+        //aumento this.recursiones para contabilizar la cantidad de recursiones.
+        this.recursiones++;
 
         //si ya distribuimos todas las tareas:
         if (tareaIndex == this.tareas.length) {
@@ -80,7 +80,7 @@ public class Backtracking {
         }
     }
 
-    public void reemplazarAsignacionMinima(Solucion asignacionActual) {
+    private void reemplazarAsignacionMinima(Solucion asignacionActual) {
         this.asignacionMinima.clear();
         for (Procesador p: asignacionActual.getProcesadores()) {
             Procesador tmp = new Procesador(p.getId(), p.getCodigo(), p.isRefrigeracion(), p.getAñoFuncionamiento(), p.getTiempoEjecucion(), p.getCantTareasCriticas());
