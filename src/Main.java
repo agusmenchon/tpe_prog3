@@ -18,9 +18,13 @@ public class Main {
         System.out.println("HASHMAP DE TAREAS");
         servicios.printHashMap();
 
+        System.out.println("");
+
         String tId = "T3";
         System.out.println("SERVICIO 1 con tarea " + tId);
         System.out.println(servicios.servicio1(tId));
+
+        System.out.println("");
 
         System.out.println("SERVICIO 2 con tareas críticas");
         List<Tarea> listTareasCriticas = servicios.servicio2(true);
@@ -28,23 +32,30 @@ public class Main {
             System.out.println(t);
         }
 
+        System.out.println("");
+
         System.out.println("ARRAY ORDENADO SEGÚN PRIORIDAD DE TAREAS");
         servicios.printArray();
 
+        System.out.println("");
+
         int pMin = 23;
         int pMax = 91;
-        System.out.println("SERVICIO 3 de " + pMin + " a " + pMax);
+        System.out.println("SERVICIO 3 con prioridad de " + pMin + " a " + pMax);
         List<Tarea> listTareasPrioridad = servicios.servicio3(pMin, pMax);
 
         for (Tarea t: listTareasPrioridad) {
             System.out.println(t);
         }
 
+        System.out.println("");
+
         ///////// SEGUNDA PARTE TPE /////////
         Backtracking();
 
-        Greedy();
+        System.out.println("");
 
+        Greedy();
     }
 
     public static void Backtracking(){
@@ -81,7 +92,7 @@ public class Main {
             for (Procesador p: s.getProcesadores()) {
                 System.out.println(p);
                 for (Tarea t: p.getTareas()) {
-                    System.out.println(t);
+                    System.out.println("- " + t);
                 }
             }
 
@@ -117,7 +128,7 @@ public class Main {
             for (Procesador p: s.getProcesadores()) {
                 System.out.println(p);
                 for (Tarea t: p.getTareas()) {
-                    System.out.println(t);
+                    System.out.println("- " + t);
                 }
             }
 

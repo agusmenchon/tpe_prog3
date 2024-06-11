@@ -84,7 +84,6 @@ public class Procesador {
         return refrigeracion;
     }
 
-
     public int getAñoFuncionamiento() {
         return año_funcionamiento;
     }

@@ -23,11 +23,11 @@ public class Greedy {
     que cumpla con el criterio ya mencionado y, a su vez, también cumpla con los requisitos propios de la consigna. Una vez
     fueron asignadas todas las tareas, genera una Solución con el array de procesadores y el tiempo de ejecución máximo.*/
     public Solucion greedy(int tiempoMaximoNoRefrigerados) {
-        //lo primero que hacemos es agregar una tarea por procesador, ya que al principio no tendran tareas asignadas y
-        // siempre habra procesadores minimos con 0 tiempoEjecucion hasta que todos tengan una tarea asignada
-        // (si pasan las restricciones del checkAddTarea), esto optimizará la estrategia siempre y cuando el checkAddTarea nos retorne true
+        /*Lo primero es agregar una tarea por procesador (si pasan las restricciones del checkAddTarea), ya que al
+        principio ninguno poseerá tareas asignadas y todos tendrán 0 tiempoEjecución. Esto reduce la cantidad de
+        candidatos y optimiza la estrategia siempre y cuando el checkAddTarea nos retorne true*/
         for (Procesador p : this.procesadores){
-            this.cantidadCandidatos++; //aumento la cantidad de candidatos considerados
+            this.cantidadCandidatos++;
             Tarea t = this.tareas.getFirst();
             if (p.checkAddTarea(t, tiempoMaximoNoRefrigerados)) {
                 p.addTarea(t);
@@ -51,14 +51,13 @@ public class Greedy {
         return new Solucion(this.procesadores, tiempo);
     }
 
-    //en este metodo obtendremos el procesador de menor tiempo de ejecucion que ademas cumpla con los criterios de la consigna
-    //que estan derivados por cuestiones de responsabilidad al metodo checkAddTarea
+    /*En este metodo obtendremos el procesador de menor tiempo de ejecucion que además cumpla con los criterios de la consigna
+    que están derivados por cuestiones de responsabilidad al método checkAddTarea*/
     private Procesador getProcesadorMinimoFactible(ArrayList<Procesador> procesadores, Tarea t, int tiempoMaxNoRefrig) {
         int tiempoEjecucionMinimo = Integer.MAX_VALUE;
         Procesador procesadorSolucion = null;
 
         for (Procesador p: procesadores) {
-            //aumento la cantidad de candidatos considerados:
             this.cantidadCandidatos++;
             if ((p.getTiempoEjecucion() < tiempoEjecucionMinimo) && p.checkAddTarea(t, tiempoMaxNoRefrig)) {
                 tiempoEjecucionMinimo = p.getTiempoEjecucion();
@@ -68,7 +67,7 @@ public class Greedy {
         return procesadorSolucion;
     }
 
-    public int getMayorTiempoEjecucion(ArrayList<Procesador> procesadores) {
+    private int getMayorTiempoEjecucion(ArrayList<Procesador> procesadores) {
         int tiempoMayor = 0;
 
         for (Procesador p: procesadores) {

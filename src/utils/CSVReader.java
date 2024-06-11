@@ -43,7 +43,6 @@ public class CSVReader {
             // Aca instanciar lo que necesiten en base a los datos leidos
             Tarea t = new Tarea(id, nombre, tiempo, critica, prioridad);
             tareas.put(t.getId(), t);
-            //System.out.println(tareas.get(t.getId()));
         }
     }
 
