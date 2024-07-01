@@ -89,18 +89,32 @@ public class Servicios {
 
     //Expresar la complejidad temporal del servicio 1.
     //O(1)
+    //Estructura utilizada: estructura HashMap o estructura de hashing o dispersión. Nos permite
+    //llevar los tiempos de busquedas a O(1) o tiempo constante mediante el acceso asociativo por un ID,
+    //y es valioso frente a otras estructuras como listas o arreglos donde el tiempo de busqueda seria
+    //variable
     public Tarea servicio1(String ID) {
         return tareas.get(ID);
     }
 
     //Expresar la complejidad temporal del servicio 2.
     //O(1)
+    //Estructura utilizada: doble lista (ArrayList), por un lado una lista de tareas criticas y otra de no criticas
+    //Al cargar las tareas en el constructor nos permitimos instanciar dos listas para reducir ulteriormente
+    //las complejidades de devolver las tareas criticas o no criticas a tiempo constante
     public List<Tarea> servicio2(boolean esCritica) {
         return esCritica ? new ArrayList<>(this.tareasCriticas) : new ArrayList<>(this.tareasNoCriticas);
     }
 
     //Expresar la complejidad temporal del servicio 3.
     //O(n)
+    //Estructura utilizada: arreglo de tareas (Tarea[])
+    //Con un arreglo ya previamente ordenado de tareas podemos implementar el algoritmo de busqueda binaria para
+    //retornar la posicion del elemento correspondiente a la prioridad inferior (o el inmediatamente mas cercano de
+    //entre los mayores a prioridad inferior), con la idea de achicar el tamaño del recorrido a iterar para devolver
+    //las tareas entre los dos niveles de prioridad indicados.
+    //Si bien en el peor de los casos tendria que hacer todo el recorrido (si se pidiera con prioridad inferior == 0),
+    //se mejora el costo computacional para el caso promedio.
     public List<Tarea> servicio3(int prioridadInferior, int prioridadSuperior) {
         List<Tarea> res = new ArrayList<>();
 
