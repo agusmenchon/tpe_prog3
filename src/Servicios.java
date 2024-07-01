@@ -15,6 +15,8 @@ import java.util.List;
  */
 public class Servicios {
 
+    private ArrayList<Tarea> tareasCriticas;
+    private ArrayList<Tarea> tareasNoCriticas;
     private HashMap<String, Tarea> tareas;
     private HashMap<String, Procesador> procesadores;
     private Tarea arrayTareas[];
@@ -23,14 +25,16 @@ public class Servicios {
     public Servicios(String pathProcesadores, String pathTareas)
     {
         this.tareas = new HashMap<>();
-        //REVISAR
         this.procesadores = new HashMap<>();
+        this.tareasCriticas = new ArrayList<Tarea>();
+        this.tareasNoCriticas = new ArrayList<Tarea>();
 
         CSVReader reader = new CSVReader(tareas, procesadores, pathTareas, pathProcesadores);
         reader.readProcessors();
         reader.readTasks();
         arrayTareas = new Tarea[tareas.size()];
         insertarOrdenadoArray();
+        this.generarListadosSegunCriticicidad();
     }
 
     public Collection<Tarea> getTareas() {
@@ -63,6 +67,14 @@ public class Servicios {
         }
     }
 
+    private void generarListadosSegunCriticicidad(){
+        for (Tarea t: tareas.values()) {
+            if (t.isCritica()) {
+                this.tareasCriticas.add(t);
+            } else this.tareasNoCriticas.add(t);
+        }
+    }
+
     public void printArray() {
         for (Tarea t: arrayTareas) {
             System.out.println(t);
@@ -82,15 +94,9 @@ public class Servicios {
     }
 
     //Expresar la complejidad temporal del servicio 2.
-    //O(n)
+    //O(1)
     public List<Tarea> servicio2(boolean esCritica) {
-        List<Tarea> res = new ArrayList<>();
-        for (Tarea t: tareas.values()) {
-            if (t.isCritica() == esCritica) {
-                res.add(t);
-            }
-        }
-        return res;
+        return esCritica ? new ArrayList<>(this.tareasCriticas) : new ArrayList<>(this.tareasNoCriticas);
     }
 
     //Expresar la complejidad temporal del servicio 3.
