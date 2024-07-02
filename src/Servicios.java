@@ -22,7 +22,7 @@ public class Servicios {
     private Tarea arrayTareas[];
 
     //Expresar la complejidad temporal del constructor.
-    //O(n2)
+    //O(n²)
     public Servicios(String pathProcesadores, String pathTareas)
     {
         this.tareas = new HashMap<>();
@@ -37,13 +37,13 @@ public class Servicios {
         insertarOrdenadoArray();
     }
 
-    public Collection<Tarea> getTareas() {
-        return tareas.values();
-    }
+//    public Collection<Tarea> getTareas() {
+//        return tareas.values();
+//    }
 
-    public Collection<Procesador> getProcesadores() {
-        return procesadores.values();
-    }
+//    public Collection<Procesador> getProcesadores() {
+//        return procesadores.values();
+//    }
 
     private void insertarOrdenadoArray() {
         int i = 0;
@@ -123,8 +123,6 @@ public class Servicios {
             return res;
         }
 
-        //System.out.println("valor de prioridad en la pos de inicio: " + arrayTareas[inicio].getPrioridad());
-
         for (int i = inicio; i < arrayTareas.length; i++) {
             if (arrayTareas[i].getPrioridad() <= prioridadSuperior) {
                 res.add(arrayTareas[i]);
@@ -133,9 +131,9 @@ public class Servicios {
         return res;
     }
 
-    //Busqueda binaria en este caso retornara la posicion del elemento (si lo encuentra),
-    // de lo contrario retornará la posicion > mas proxima al elem x buscado
-    //la idea detrás de la utilizacion del algoritmo es mejorar el caso promedio aunque no reduzca la complejidad en el big(O) notation
+    /*La búsqueda binaria retornará la posicion del elemento (si lo encuentra), de lo contrario retornará
+    la posición > más próxima al elemento buscado. La idea detrás de la utilización del algoritmo es
+    mejorar el caso promedio, aunque no reduzca la complejidad en la notación Big(O).*/
     private int busquedaBinaria(Tarea[] array, int x, int inicio, int fin) {
         int medio;
 
