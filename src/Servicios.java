@@ -22,19 +22,19 @@ public class Servicios {
     private Tarea arrayTareas[];
 
     //Expresar la complejidad temporal del constructor.
+    //O(n2)
     public Servicios(String pathProcesadores, String pathTareas)
     {
         this.tareas = new HashMap<>();
         this.procesadores = new HashMap<>();
-        this.tareasCriticas = new ArrayList<Tarea>();
-        this.tareasNoCriticas = new ArrayList<Tarea>();
+        this.tareasCriticas = new ArrayList<>();
+        this.tareasNoCriticas = new ArrayList<>();
 
         CSVReader reader = new CSVReader(tareas, procesadores, pathTareas, pathProcesadores);
         reader.readProcessors();
         reader.readTasks();
         arrayTareas = new Tarea[tareas.size()];
         insertarOrdenadoArray();
-        this.generarListadosSegunCriticicidad();
     }
 
     public Collection<Tarea> getTareas() {
@@ -48,6 +48,7 @@ public class Servicios {
     private void insertarOrdenadoArray() {
         int i = 0;
         for (Tarea t: tareas.values()) {
+            generarListadosSegunCriticicidad(t);
             arrayTareas[i] = t;
             i++;
         }
@@ -67,12 +68,10 @@ public class Servicios {
         }
     }
 
-    private void generarListadosSegunCriticicidad(){
-        for (Tarea t: tareas.values()) {
-            if (t.isCritica()) {
-                this.tareasCriticas.add(t);
-            } else this.tareasNoCriticas.add(t);
-        }
+    private void generarListadosSegunCriticicidad(Tarea t){
+        if (t.isCritica()) {
+            this.tareasCriticas.add(t);
+        } else this.tareasNoCriticas.add(t);
     }
 
     public void printArray() {
@@ -100,7 +99,7 @@ public class Servicios {
     //Expresar la complejidad temporal del servicio 2.
     //O(1)
     //Estructura utilizada: doble lista (ArrayList), por un lado una lista de tareas criticas y otra de no criticas
-    //Al cargar las tareas en el constructor nos permitimos instanciar dos listas para reducir ulteriormente
+    //Al cargar las tareas cuando llamamos al constructor nos permitimos instanciar dos listas para reducir ulteriormente
     //las complejidades de devolver las tareas criticas o no criticas a tiempo constante
     public List<Tarea> servicio2(boolean esCritica) {
         return esCritica ? new ArrayList<>(this.tareasCriticas) : new ArrayList<>(this.tareasNoCriticas);
