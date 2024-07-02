@@ -39,11 +39,20 @@ public class Backtracking {
         }
     }
 
-    /*Este método backtracking va construyendo todas las combinaciones posibles y, una vez termina de asignar las tareas,
-    chequea que la asignaciónActual sea mejor que la asignaciónMínima previamente guardada. De ser el caso, genera una copia
-    de los procesadores y los guarda en la asignaciónMínima. En tanto esté llamando a la recursión, va asignando las tareas
-    a los diferentes procesadores chequeando que el tiempo de ejecución del procesador actual no exceda el tiempo de ejecución
-    de la asignaciónMínima. De ser el caso, aplica una poda y no entra a la recursión.*/
+    /* Este método backtracking va construyendo todas las combinaciones posibles de asignacion de una cantidad N de tareas
+    a una cantidad M de procesadores.
+    Empezara asignando tareas al primer procesador, obtendrá el tiempo parcial de ejecucion del procesador y verificara que sea menor
+    al de la asignacion minima hasta el momento (condicion de PODA), luego verificara que la tarea sea agregable, donde se le delega
+    la responsabilidad a la clase Procesador el comprobar que la misma sea agregable en funcion de la cant de tareas criticas y su
+    limitante en caso de ser no refrigerado.
+    Si pasa estas estructuras de control, entonces agrega la tarea al procesador, y llama recursivamente.
+    Continuara agregando todas las tareas al procesador asignado hasta alcanzar el limite de tareas.
+    Una vez alcanzado el limite de tareas distribuidas, la asignacion actual definira su tiempo de ejecucion con el de
+    su procesador con max tiempo de ejecucion. Luego comparara la asignacion actual con la mejor-minima hasta el momento.
+    De cumplirse esta condicion, genera una copia de los procesadores y guarda la asignacion actual reemplazando la asignacion mejor-minima vigente.
+    La recursion desacoplará, quitará del procesador la ultima tarea, y pasará al siguiente procesador para agregar la tarea y probar
+    con una nueva asignacion. Este proceso continuará hasta que se hayan explorado todas las combinaciones posibles, exceptuando aquellas
+    en la cual la PODA corte el proceso de exploración del espacio de busqueda del arbol recursivo de backtracking.*/
     private void _backtracking(int tareaIndex, Solucion asignacionActual, int tiempoMaximoNoRefrigerados) {
         //aumento this.recursiones para contabilizar la cantidad de recursiones.
         this.recursiones++;
@@ -80,6 +89,11 @@ public class Backtracking {
         }
     }
 
+    /* Este método se encarga de hacer la copia de los procesadores de la asignacion actual para setear la asignacion minima-mejor que llevaremos
+    * para explorar el espacio de busqueda de backtracking. La copia es necesaria para mantener la consistencia en el funcionamiento
+    * del backtracking, ya que los procesadores iran modificando sus tiempos de ejecucion constantemente al explorar el espacio
+    * de busqueda del arbol recursivo, por lo cual necesitamos guardar en un nuevo espacio de memoria la mejor asignacion que tenemos hasta el momento
+    * , ya que esta asignacion será alterada mediante los siguientes llamados recursivos en el proceso de exploración del arbol de busqueda */
     private void reemplazarAsignacionMinima(Solucion asignacionActual) {
         this.asignacionMinima.clear();
         for (Procesador p: asignacionActual.getProcesadores()) {
